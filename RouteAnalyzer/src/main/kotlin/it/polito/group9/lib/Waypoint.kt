@@ -1,8 +1,8 @@
-package org.example.lib
+package it.polito.group9.lib
 
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import org.example.model.WayPoint
+import it.polito.group9.model.WayPoint
 import java.io.BufferedReader
 
 fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {

@@ -1,6 +1,6 @@
 package it.polito.group9
 
-import org.example.lib.readWaypointsFromCsv
+import it.polito.group9.lib.readWaypointsFromCsv
 import java.io.File
 
 fun main(args: Array<String>) {
