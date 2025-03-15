@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    id("jacoco")
 }
 
 group = "it.polito.group9"
@@ -16,6 +17,16 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)  // Ensure the tests are run before generating the report
+
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 java {

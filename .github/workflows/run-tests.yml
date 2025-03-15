@@ -1,0 +1,47 @@
+name: Run Kotlin Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x RouteAnalyzer/gradlew  # Grant execute permissions
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run tests
+        run: |
+          cd RouteAnalyzer
+          ./gradlew test jacocoTestReport
+
+      - name: Show test results and coverage
+        run: |
+          # Show the test results
+          TEST_RESULTS=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
+          TESTS_RUN=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
+          TESTS_FAILED=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite failures=\")[^\"]+" | head -n 1)
+
+          echo "Tests run: $TESTS_RUN"
+          echo "Tests failed: $TESTS_FAILED"
+
+          # Extract the coverage percentage from the JaCoCo XML file
+          COVERAGE_REPORT=$(cat RouteAnalyzer/build/reports/jacoco/test/*.xml | grep -oPm1 "(?<=<coverage rate=\")[^\"]+" | head -n 1)
+
+          echo "Code coverage: $COVERAGE_REPORT%"
