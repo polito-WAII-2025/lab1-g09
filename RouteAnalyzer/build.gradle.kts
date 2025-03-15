@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.10"
 }
 
-group = "org.example"
+group = "it.polito.group9"
 version = "1.0-SNAPSHOT"
 
 repositories {
