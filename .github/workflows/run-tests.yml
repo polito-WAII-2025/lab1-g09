@@ -42,6 +42,6 @@ jobs:
           echo "Tests failed: $TESTS_FAILED"
 
           # Extract the coverage percentage from the JaCoCo XML file
-          COVERAGE_REPORT=$(cat RouteAnalyzer/build/reports/jacoco/test/xml/*.xml | grep -oPm1 "(?<=<coverage rate=\")[^\"]+" | head -n 1)
+          COVERAGE_REPORT=$(cat RouteAnalyzer/build/reports/jacoco/test/*.xml | grep -oPm1 "(?<=<coverage rate=\")[^\"]+" | head -n 1)
 
           echo "Code coverage: $COVERAGE_REPORT%"
