@@ -23,7 +23,7 @@ fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
 
     return csvParser.map {
         WayPoint(
-            it[0].toLong(),
+            it[0].split(".")[0].toLong(),
             it[1].toDouble(),
             it[2].toDouble()
         )
