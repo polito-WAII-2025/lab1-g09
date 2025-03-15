@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.10"
 }
 
-group = "org.example"
+group = "it.polito.group9"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -16,4 +16,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
 }

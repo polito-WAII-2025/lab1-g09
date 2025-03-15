@@ -1,4 +1,4 @@
-package org.example
+package it.polito.group9
 
 import org.example.lib.readWaypointsFromCsv
 import java.io.File
