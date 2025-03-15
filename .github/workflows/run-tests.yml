@@ -29,4 +29,19 @@ jobs:
       - name: Run tests
         run: |
           cd RouteAnalyzer
-          ./gradlew test  # Run the tests from that directory
+          ./gradlew test jacocoTestReport
+
+      - name: Show test results and coverage
+        run: |
+          # Show the test results
+          TEST_RESULTS=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
+          TESTS_RUN=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
+          TESTS_FAILED=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite failures=\")[^\"]+" | head -n 1)
+
+          echo "Tests run: $TESTS_RUN"
+          echo "Tests failed: $TESTS_FAILED"
+
+          # Extract the coverage percentage from the JaCoCo XML file
+          COVERAGE_REPORT=$(cat RouteAnalyzer/build/reports/jacoco/test/xml/*.xml | grep -oPm1 "(?<=<coverage rate=\")[^\"]+" | head -n 1)
+
+          echo "Code coverage: $COVERAGE_REPORT%"
