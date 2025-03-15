@@ -24,4 +24,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Run tests
-        run: ./gradlew test
+        run: |
+          cd RouteAnalyzer
+          ./gradlew test  # Run the tests from that directory
