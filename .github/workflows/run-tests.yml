@@ -20,28 +20,33 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
-      - name: Grant execute permissions for gradlew
-        run: chmod +x RouteAnalyzer/gradlew  # Grant execute permissions
-
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
       - name: Run tests
         run: |
           cd RouteAnalyzer
+          chmod +x gradlew
           ./gradlew test jacocoTestReport
 
       - name: Show test results and coverage
         run: |
-          # Show the test results
-          TEST_RESULTS=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
-          TESTS_RUN=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite tests=\")[^\"]+" | head -n 1)
-          TESTS_FAILED=$(cat RouteAnalyzer/build/test-results/test/TEST-*.xml | grep -oPm1 "(?<=<testsuite failures=\")[^\"]+" | head -n 1)
+          # Path to the JaCoCo XML report
+          REPORT_PATH="RouteAnalyzer/build/test-results/test/*.xml"
 
-          echo "Tests run: $TESTS_RUN"
-          echo "Tests failed: $TESTS_FAILED"
+          # Extract coverage information from JaCoCo XML
+          COVERED_INSTRUCTIONS=$(xmllint --xpath "string(//counter[@type='INSTRUCTION']/@covered)" $REPORT_PATH)
+          MISSED_INSTRUCTIONS=$(xmllint --xpath "string(//counter[@type='INSTRUCTION']/@missed)" $REPORT_PATH)
+          COVERED_BRANCHES=$(xmllint --xpath "string(//counter[@type='BRANCH']/@covered)" $REPORT_PATH)
+          MISSED_BRANCHES=$(xmllint --xpath "string(//counter[@type='BRANCH']/@missed)" $REPORT_PATH)
+          COVERED_LINES=$(xmllint --xpath "string(//counter[@type='LINE']/@covered)" $REPORT_PATH)
+          MISSED_LINES=$(xmllint --xpath "string(//counter[@type='LINE']/@missed)" $REPORT_PATH)
 
-          # Extract the coverage percentage from the JaCoCo XML file
-          COVERAGE_REPORT=$(cat RouteAnalyzer/build/reports/jacoco/test/*.xml | grep -oPm1 "(?<=<coverage rate=\")[^\"]+" | head -n 1)
+          # Calculate overall coverage
+          TOTAL_COVERED=$((COVERED_INSTRUCTIONS + COVERED_BRANCHES + COVERED_LINES))
+          TOTAL_MISSED=$((MISSED_INSTRUCTIONS + MISSED_BRANCHES + MISSED_LINES))
+          TOTAL=$((TOTAL_COVERED + TOTAL_MISSED))
+          COVERAGE_PERCENTAGE=$(( 100 * TOTAL_COVERED / TOTAL ))
 
-          echo "Code coverage: $COVERAGE_REPORT%"
+          # Print coverage stats
+          echo "Coverage Percentage: $COVERAGE_PERCENTAGE%"
