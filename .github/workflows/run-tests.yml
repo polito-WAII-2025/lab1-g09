@@ -28,29 +28,3 @@ jobs:
           cd RouteAnalyzer
           chmod +x gradlew
           ./gradlew test jacocoTestReport
-
-      - name: Show test results and coverage
-        run: |
-          # Install libxml2-utils to get xmllint
-          sudo apt-get update
-          sudo apt-get install -y libxml2-utils
-          
-          # Path to the JaCoCo XML report
-          REPORT_PATH="RouteAnalyzer/build/test-results/test/*.xml"
-
-          # Extract coverage information from JaCoCo XML
-          COVERED_INSTRUCTIONS=$(xmllint --xpath "string(//counter[@type='INSTRUCTION']/@covered)" $REPORT_PATH)
-          MISSED_INSTRUCTIONS=$(xmllint --xpath "string(//counter[@type='INSTRUCTION']/@missed)" $REPORT_PATH)
-          COVERED_BRANCHES=$(xmllint --xpath "string(//counter[@type='BRANCH']/@covered)" $REPORT_PATH)
-          MISSED_BRANCHES=$(xmllint --xpath "string(//counter[@type='BRANCH']/@missed)" $REPORT_PATH)
-          COVERED_LINES=$(xmllint --xpath "string(//counter[@type='LINE']/@covered)" $REPORT_PATH)
-          MISSED_LINES=$(xmllint --xpath "string(//counter[@type='LINE']/@missed)" $REPORT_PATH)
-
-          # Calculate overall coverage
-          TOTAL_COVERED=$((COVERED_INSTRUCTIONS + COVERED_BRANCHES + COVERED_LINES))
-          TOTAL_MISSED=$((MISSED_INSTRUCTIONS + MISSED_BRANCHES + MISSED_LINES))
-          TOTAL=$((TOTAL_COVERED + TOTAL_MISSED))
-          COVERAGE_PERCENTAGE=$(( 100 * TOTAL_COVERED / TOTAL ))
-
-          # Print coverage stats
-          echo "Coverage Percentage: $COVERAGE_PERCENTAGE%"
