@@ -50,4 +50,18 @@ class WaypointTest {
         // Assert
         assertEquals(expectedResult, result, "Result does not match expected result")
     }
+
+    @Tag("readWaypointsFromCsv")
+    @Test
+    fun readWaypointsFromCsvShouldReturnEmptyList() {
+        // Arrange
+        val bufferedReader = StringReader("").buffered()
+        val expectedResult = emptyList<WayPoint>()
+
+        // Act
+        val result = readWaypointsFromCsv(bufferedReader)
+
+        // Assert
+        assertEquals(expectedResult, result, "Result does not match expected result")
+    }
 }
