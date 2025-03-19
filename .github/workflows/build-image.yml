@@ -1,0 +1,24 @@
+name: Run Kotlin Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        uses: docker-practice/actions-setup-docker@v1
+        timeout-minutes: 10
+        run: |
+          set -x
+          cd RouteAnalyzer
+          docker version
+          docker build -t route-analyzer .
