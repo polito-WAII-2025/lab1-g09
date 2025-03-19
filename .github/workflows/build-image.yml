@@ -20,11 +20,6 @@ jobs:
           dockerfile: RouteAnalyzer/Dockerfile
           failure-threshold: warning
 
-      - name: Hadolint output
-        run: |
-          echo Hadolint: `${{ steps.hadolint.outcome }}`
-          echo `${{ env.HADOLINT_RESULTS }}`
-
       - name: Build the Docker image
         timeout-minutes: 10
         run: |
