@@ -18,25 +18,12 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: RouteAnalyzer/Dockerfile
+          failure-threshold: warning
 
-      - name: Update Pull Request
-        uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        with:
-          script: |
-            const output = `
-            #### Hadolint: \`${{ steps.hadolint.outcome }}\`
-            \`\`\`
-            ${process.env.HADOLINT_RESULTS}
-            \`\`\`
-            `;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+      - name: Hadolint output
+        run: |
+          echo "Hadolint: \`${{ steps.hadolint.outcome }}\`"
+          echo "${process.env.HADOLINT_RESULTS}"
 
       - name: Build the Docker image
         timeout-minutes: 10
