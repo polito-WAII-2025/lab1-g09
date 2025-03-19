@@ -22,8 +22,8 @@ jobs:
 
       - name: Hadolint output
         run: |
-          echo "Hadolint: \`${{ steps.hadolint.outcome }}\`"
-          echo "${process.env.HADOLINT_RESULTS}"
+          echo Hadolint: `${{ steps.hadolint.outcome }}`
+          echo `${{ env.HADOLINT_RESULTS }}`
 
       - name: Build the Docker image
         timeout-minutes: 10
