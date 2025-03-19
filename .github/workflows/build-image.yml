@@ -14,9 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker Image
+      - name: Set up Docker
         uses: docker-practice/actions-setup-docker@v1
         timeout-minutes: 10
+
+      - name: Build the Docker image
         run: |
           set -x
           cd RouteAnalyzer
