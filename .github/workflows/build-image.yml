@@ -7,12 +7,17 @@ on:
   pull_request:
 
 jobs:
-  build-docker-image:
+  verify-and-build-docker-image:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Docker Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: RouteAnalyzer/Dockerfile
 
       - name: Build the Docker image
         timeout-minutes: 10
