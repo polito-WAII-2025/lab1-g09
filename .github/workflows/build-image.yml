@@ -16,9 +16,9 @@ jobs:
 
       - name: Set up Docker
         uses: docker-practice/actions-setup-docker@v1
-        timeout-minutes: 10
 
       - name: Build the Docker image
+        timeout-minutes: 10
         run: |
           set -x
           cd RouteAnalyzer
