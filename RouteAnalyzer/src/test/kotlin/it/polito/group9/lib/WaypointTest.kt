@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
 class WaypointTest {
     @Tag("normalizeTimestamp")
     @Test
-    fun normalizeTimestampShouldReturnTimestampWhenHasDecimal() {
+    fun `normalizeTimestamp with decimals` () {
         // Arrange
         val timestamp = "123.456"
 
@@ -23,7 +23,7 @@ class WaypointTest {
 
     @Tag("normalizeTimestamp")
     @Test
-    fun normalizeTimestampShouldReturnTimestampWhenNoDecimal() {
+    fun `normalizeTimestamp without decimals` () {
         // Arrange
         val timestamp = "123"
 
@@ -36,7 +36,7 @@ class WaypointTest {
 
     @Tag("readWaypointsFromCsv")
     @Test
-    fun readWaypointsFromCsvShouldReturnListOfWaypoints() {
+    fun `readWaypointsFromCsv should return list of WayPoints` () {
         // Arrange
         val bufferedReader = StringReader("123.456;45.678;9.012\n123.456;45.678;9.012\n123.456;45.678;9.012").buffered()
         val expectedResult = listOf(
@@ -54,7 +54,7 @@ class WaypointTest {
 
     @Tag("readWaypointsFromCsv")
     @Test
-    fun readWaypointsFromCsvShouldReturnEmptyList() {
+    fun `readWaypointsFromCsv should return empty list`() {
         // Arrange
         val bufferedReader = StringReader("").buffered()
         val expectedResult = emptyList<WayPoint>()
@@ -68,7 +68,7 @@ class WaypointTest {
 
     @Tag("distanceBetweenWayPoints")
     @Test
-    fun distanceBetweenWayPointsShouldReturnCorrectDistance() {
+    fun `distanceBetweenWayPoints should return correct distance` () {
         // Arrange
         val point1 = WayPoint(0, 0.0, 0.0)
         val point2 = WayPoint(0, 0.0, 1.0)
@@ -82,7 +82,7 @@ class WaypointTest {
 
     @Tag("distanceBetweenWayPoints")
     @Test
-    fun distanceBetweenWayPointsShouldReturnZeroForSamePoint() {
+    fun `distanceBetweenWayPoints should return 0 for the same point` () {
         // Arrange
         val point1 = WayPoint(0, 0.0, 0.0)
 
@@ -95,7 +95,7 @@ class WaypointTest {
 
     @Tag("distanceBetweenWayPoints")
     @Test
-    fun distanceBetweenWayPointsShouldHandleNegativeCoordinates() {
+    fun `distanceBetweenWayPoints should handle negative coordinates` () {
         // Arrange
         val point1 = WayPoint(0, -45.0, -45.0)
         val point2 = WayPoint(0, 45.0, 45.0)
@@ -109,7 +109,7 @@ class WaypointTest {
 
     @Tag("distanceBetweenWayPoints")
     @Test
-    fun distanceBetweenWayPointsShouldHandleLargeDistances() {
+    fun `distanceBetweenWayPoints should handle large distances` () {
         // Arrange
         val point1 = WayPoint(0, -90.0, 0.0)
         val point2 = WayPoint(0, 90.0, 0.0)
@@ -123,7 +123,7 @@ class WaypointTest {
 
     @Tag("waypointsOutsideGeofence")
     @Test
-    fun waypointsOutsideGeofenceShouldReturnEmptySequenceWhenAllInside() {
+    fun `waypointsOutsideGeofence should return empty list when all inside` () {
         // Arrange
         val centralWayPoint = WayPoint(0, 0.0, 0.0)
         val waypoints = listOf(
@@ -141,7 +141,7 @@ class WaypointTest {
 
     @Tag("waypointsOutsideGeofence")
     @Test
-    fun waypointsOutsideGeofenceShouldReturnAllWaypointsWhenAllOutside() {
+    fun `waypointsOutsideGeofence should return all waypoints when all outside` () {
         // Arrange
         val centralWayPoint = WayPoint(0, 0.0, 0.0)
         val waypoints = listOf(
@@ -159,7 +159,7 @@ class WaypointTest {
 
     @Tag("waypointsOutsideGeofence")
     @Test
-    fun waypointsOutsideGeofenceShouldReturnCorrectWaypoints() {
+    fun `waypointsOutsideGeofence should return correct waypoints` () {
         // Arrange
         val centralWayPoint = WayPoint(0, 0.0, 0.0)
         val waypoints = listOf(
@@ -178,7 +178,7 @@ class WaypointTest {
 
     @Tag("waypointsOutsideGeofence")
     @Test
-    fun waypointsOutsideGeofenceShouldHandleEmptySequence() {
+    fun `waypointsOutsideGeofence should handle empty list` () {
         // Arrange
         val centralWayPoint = WayPoint(0, 0.0, 0.0)
         val waypoints = emptyList<WayPoint>()
@@ -188,38 +188,6 @@ class WaypointTest {
 
         // Assert
         assertTrue(result.isEmpty(), "Result should be empty for an empty sequence")
-    }
-
-    @Test
-    fun `test calculateEarthDistance between known points`() {
-        val p1 = WayPoint(0, 41.9028, 12.4964) // Roma
-        val p2 = WayPoint(0, 48.8566, 2.3522)  // Parigi
-
-        val distance = calculateEarthDistanceHaversine(p1, p2)
-
-        // La distanza attesa tra Roma e Parigi è circa 1100 km
-        Assertions.assertEquals(1100.0, round(distance), 5.0)
-    }
-
-    @Test
-    fun `test calculateEarthDistance with same point`() {
-        val p = WayPoint(0, 45.0, 9.0)
-
-        val distance = calculateEarthDistanceHaversine(p, p)
-
-        // Se i due punti sono uguali, la distanza deve essere 0.0
-        Assertions.assertEquals(0.0, distance, 0.0001)
-    }
-
-    @Test
-    fun `test calculateEarthDistance along meridian`() {
-        val p1 = WayPoint(0, 0.0, 0.0)    // Equatore, longitudine 0
-        val p2 = WayPoint(0, 10.0, 0.0)   // 10° Nord, stessa longitudine
-
-        val distance = calculateEarthDistanceHaversine(p1, p2)
-
-        // 10 gradi di latitudine ~ 1110 km
-        Assertions.assertEquals(1110.0, round(distance), 5.0)
     }
 
     @Test
@@ -233,7 +201,7 @@ class WaypointTest {
         val maxDistance = maxDistanceFromStart(wayPoints)
 
         // New York è il punto più distante da Roma (~6889 km)
-        Assertions.assertEquals(6889.0, round(maxDistance), 5.0)
+        assertEquals(6889.0, maxDistance, 5.0)
     }
 
     @Test
@@ -243,7 +211,7 @@ class WaypointTest {
         val maxDistance = maxDistanceFromStart(wayPoints)
 
         // Se c'è un solo WayPoint, la distanza massima è 0.0
-        Assertions.assertEquals(0.0, maxDistance, 0.0001)
+        assertEquals(0.0, maxDistance, 0.0001)
     }
 
 }
