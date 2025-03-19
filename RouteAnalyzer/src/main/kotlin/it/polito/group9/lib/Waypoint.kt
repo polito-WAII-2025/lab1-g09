@@ -4,11 +4,7 @@ import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import it.polito.group9.model.WayPoint
 import java.io.BufferedReader
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
     val csvParser = CSVParser(bufferedReader, CSVFormat.DEFAULT
@@ -32,27 +28,48 @@ fun normalizeTimestamp(timestamp: String): String {
     }
 }
 
-fun calculateEarthDistanceHaversine(p1: WayPoint, p2: WayPoint): Double {
-    val earthRadius = 6371.0 // Earth's radius in kilometers
+/**
+ * Calculates the distance between two waypoints using the Haversine formula.
+ *
+ * @param point1 The first waypoint.
+ * @param point2 The second waypoint.
+ * @param earthRadius The radius of the Earth in kilometers. Default is 6371.0 km.
+ * @return The distance between the two waypoints in kilometers.
+ */
+fun distanceBetweenWayPoints(
+    point1: WayPoint, point2: WayPoint,
+    earthRadius: Double = 6371.0 // Default Earth radius in kilometers
+): Double {
+    val lat1Rad = Math.toRadians(point1.latitude)
+    val lon1Rad = Math.toRadians(point1.longitude)
+    val lat2Rad = Math.toRadians(point2.latitude)
+    val lon2Rad = Math.toRadians(point2.longitude)
 
-    //non tipizzato perchè tutti double
+    val dLat = lat2Rad - lat1Rad
+    val dLon = lon2Rad - lon1Rad
 
-    val lat1 = Math.toRadians(p1.latitude);
-    val lon1 = Math.toRadians(p1.longitude);
-    val lat2 = Math.toRadians(p2.latitude);
-    val lon2 = Math.toRadians(p2.longitude);
+    val a = sin(dLat / 2).pow(2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2).pow(2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-    val dLat = lat2 - lat1;
-    val dLon = lon2 - lon1;
+    return earthRadius * c // Distance in the same unit as earthRadius (default: km)
+}
 
-    val a = sin(dLat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dLon / 2).pow(2);
-    val c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    return earthRadius * c;
+/**
+ * Filters waypoints that are outside a specified geofence.
+ *
+ * @param waypoints A sequence of waypoints to be checked.
+ * @param centralWayPoint The central waypoint of the geofence.
+ * @param radius The radius of the geofence in kilometers.
+ * @return A sequence of waypoints that are outside the specified geofence.
+ */
+fun waypointsOutsideGeofence(waypoints: List<WayPoint>, centralWayPoint: WayPoint, radius: Double): List<WayPoint> {
+    return waypoints.filter {
+        distanceBetweenWayPoints(it, centralWayPoint) > radius
+    }
 }
 
 fun maxDistanceFromStart(wayPoints: List<WayPoint>): Double {
     val startingPoint = wayPoints.first()
 
-    return wayPoints.maxOf { calculateEarthDistanceHaversine(startingPoint, it) }
+    return wayPoints.maxOf { distanceBetweenWayPoints(startingPoint, it) }
 }
