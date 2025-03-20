@@ -1,8 +1,8 @@
 package it.polito.group9
 
-import it.polito.group9.lib.maxDistanceFromStart
-import it.polito.group9.lib.readWaypointsFromCsv
+import it.polito.group9.calculation.*
 import it.polito.group9.model.WayPoint
+import it.polito.group9.utils.readWaypointsFromCsv
 import java.io.File
 
 fun main(args: Array<String>) {

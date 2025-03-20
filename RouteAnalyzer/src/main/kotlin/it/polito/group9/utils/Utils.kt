@@ -1,14 +1,10 @@
-package it.polito.group9.lib
+package it.polito.group9.utils
 
+import it.polito.group9.model.WayPoint
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import it.polito.group9.model.WayPoint
 import java.io.BufferedReader
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
     val csvParser = CSVParser(bufferedReader, CSVFormat.DEFAULT
@@ -49,10 +45,4 @@ fun calculateEarthDistanceHaversine(p1: WayPoint, p2: WayPoint): Double {
     val c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return earthRadius * c;
-}
-
-fun maxDistanceFromStart(wayPoints: List<WayPoint>): Double {
-    val startingPoint = wayPoints.first()
-
-    return wayPoints.maxOf { calculateEarthDistanceHaversine(startingPoint, it) }
 }
