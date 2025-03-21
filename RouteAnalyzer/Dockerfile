@@ -10,9 +10,6 @@ COPY build.gradle.kts settings.gradle.kts /app/
 # Copy the source code
 COPY src /app/src
 
-# Copy the waypoints.csv file -> not so good, but it's the only way (NOW) to pass the file to the container, next time I'll use a volume and share the file from other if needed
-COPY waypoints.csv /app/waypoints.csv
-
 # Compile the application
 RUN gradle build -x test
 
@@ -24,9 +21,11 @@ WORKDIR /app
 
 # Copy the jar file from the build stage
 COPY --from=build /app/build/libs/RouteAnalyzer-1.0-SNAPSHOT-all.jar /app/RouteAnalyzer-1.0-SNAPSHOT-all.jar
+# Copy the resource files (like the waypoints.csv of example) from the build stage
+COPY --from=build /app/build/resources/main /app/resources/
 
-# Copy the waypoints.csv file from the build stage
-COPY --from=build /app/waypoints.csv /app/waypoints.csv
-
-# Execute the application with the waypoints.csv file as argument
-ENTRYPOINT ["java", "-jar", "/app/RouteAnalyzer-1.0-SNAPSHOT-all.jar", "/app/waypoints.csv"]
+# Execute the application with the waypoints.csv file as argument (will be the default command for docker run and docker-compose up/run)
+ENTRYPOINT ["java", "-jar", "/app/RouteAnalyzer-1.0-SNAPSHOT-all.jar"]
+#example arguments for the application
+CMD ["/app/resources/waypoints.csv"]
+# CMD ["/app/resources/output.dojson"] Output file
