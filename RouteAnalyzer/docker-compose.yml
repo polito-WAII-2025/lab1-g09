@@ -1,0 +1,10 @@
+services:
+  back-end:
+    build:
+      context: .
+    image: route-analyzer
+    volumes:
+      - ./src/main/resources:/app/resources
+    command:
+      - "/app/resources/waypoints.csv"
+      # - "/app/resources/output.cjson"
