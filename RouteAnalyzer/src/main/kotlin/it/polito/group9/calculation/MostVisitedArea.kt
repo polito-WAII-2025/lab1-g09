@@ -1,23 +1,17 @@
-package it.polito.group9.calculations
+package it.polito.group9.calculation
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
+import it.polito.group9.utils.calculateEarthDistanceHaversine
 import kotlin.math.*
 
-fun haversineDistance(wp1: WayPoint, wp2: WayPoint, earthRadius: Double = 6371.0): Double {
-    val dLat = Math.toRadians(wp2.latitude - wp1.latitude)
-    val dLon = Math.toRadians(wp2.longitude - wp1.longitude)
-    val a = sin(dLat / 2).pow(2) +
-            cos(Math.toRadians(wp1.latitude)) * cos(Math.toRadians(wp2.latitude)) *
-            sin(dLon / 2).pow(2)
-    return 2 * earthRadius * atan2(sqrt(a), sqrt(1 - a))
-}
+
 
 // Computes the farthest distance from the starting waypoint.
 fun maxDistanceFromStart(waypoints: List<WayPoint>, earthRadius: Double = 6371.0): Pair<WayPoint, Double> {
     val start = waypoints.firstOrNull() ?: throw IllegalArgumentException("No waypoints provided")
     val maxDistance = waypoints.drop(1)
-        .map { haversineDistance(start, it, earthRadius) }
+        .map { calculateEarthDistanceHaversine(start, it) }
         .maxOrNull() ?: 0.0
     return start to maxDistance
 }
@@ -39,7 +33,7 @@ fun mostFrequentedArea(
 
     val clusters = waypoints.fold(emptyList<List<WayPoint>>()) { clusters, wp ->
         val clusterIndex = clusters.indexOfFirst { cluster ->
-            haversineDistance(cluster.first(), wp, earthRadius) <= areaRadiusKm
+            calculateEarthDistanceHaversine(cluster.first(), wp) <= areaRadiusKm
         }
         if (clusterIndex >= 0) {
             clusters.mapIndexed { index, cluster ->
