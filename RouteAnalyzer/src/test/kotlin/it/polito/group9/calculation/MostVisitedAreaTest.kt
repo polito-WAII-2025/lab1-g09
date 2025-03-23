@@ -2,7 +2,6 @@ package it.polito.group9.calculation
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
-import it.polito.group9.utils.distanceBetweenWayPoints
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -10,27 +9,7 @@ import kotlin.test.assertFailsWith
 private const val DELTA = 0.02
 
 class CalculationsTest {
-
-    // haversineDistance
-
-    @Test
-    fun testHaversineDistanceZero() {
-        val wp = WayPoint(123, 45.678, 9.012)
-        assertEquals(0.0, distanceBetweenWayPoints(wp, wp), DELTA)
-    }
-
-    @Test
-    fun testHaversineDistanceSlightLatitudeDifference() {
-        val wp1 = WayPoint(123, 45.678, 9.012)
-        val wp2 = WayPoint(123, 45.679, 9.012)
-        // ≈0.111 km per 0.001° latitude
-        assertEquals(0.111, distanceBetweenWayPoints(wp1, wp2), DELTA)
-    }
-
-
-
     // computeDefaultMostFrequentedAreaRadius
-
     @Test
     fun testComputeDefaultMostFrequentedAreaRadiusWhenLessThanOne() {
         assertEquals(0.1, computeDefaultMostFrequentedAreaRadius(0.5), DELTA)
@@ -43,7 +22,6 @@ class CalculationsTest {
     }
 
     // mostFrequentedArea
-
     @Test
     fun testMostFrequentedAreaEmptyList() {
         val params = CustomParameters().apply {

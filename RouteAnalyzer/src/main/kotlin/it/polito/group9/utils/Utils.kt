@@ -53,17 +53,3 @@ fun distanceBetweenWayPoints(
 
     return earthRadius * c // Distance in the same unit as earthRadius (default: km)
 }
-
-/**
- * Filters waypoints that are outside a specified geofence.
- *
- * @param waypoints A sequence of waypoints to be checked.
- * @param centralWayPoint The central waypoint of the geofence.
- * @param radius The radius of the geofence in kilometers.
- * @return A sequence of waypoints that are outside the specified geofence.
- */
-fun waypointsOutsideGeofence(waypoints: List<WayPoint>, centralWayPoint: WayPoint, radius: Double): List<WayPoint> {
-    return waypoints.filter {
-        distanceBetweenWayPoints(it, centralWayPoint) > radius
-    }
-}

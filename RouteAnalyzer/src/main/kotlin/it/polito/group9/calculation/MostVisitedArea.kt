@@ -6,7 +6,6 @@ import it.polito.group9.utils.distanceBetweenWayPoints
 import kotlin.math.*
 
 
-
 // Computes the farthest distance from the starting waypoint.
 fun maxDistanceFromStart(waypoints: List<WayPoint>, earthRadius: Double = 6371.0): Pair<WayPoint, Double> {
     val start = waypoints.firstOrNull() ?: throw IllegalArgumentException("No waypoints provided")

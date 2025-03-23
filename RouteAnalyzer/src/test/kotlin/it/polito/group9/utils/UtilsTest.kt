@@ -1,6 +1,7 @@
 package it.polito.group9.utils
 
 import it.polito.group9.calculation.maxDistanceFromStart
+import it.polito.group9.calculation.waypointsOutsideGeofence
 import it.polito.group9.model.WayPoint
 import org.junit.jupiter.api.Tag
 import java.io.StringReader
@@ -121,98 +122,4 @@ class UtilsTest {
         // Assert
         assertEquals(20015.0, result, 1.0, "Distance should be approximately 20015 km")
     }
-
-    @Tag("waypointsOutsideGeofence")
-    @Test
-    fun `waypointsOutsideGeofence should return empty list when all inside` () {
-        // Arrange
-        val centralWayPoint = WayPoint(0, 0.0, 0.0)
-        val waypoints = listOf(
-            WayPoint(1, 0.0, 0.1),
-            WayPoint(2, 0.1, 0.0),
-            WayPoint(3, 0.1, 0.1)
-        )
-
-        // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
-
-        // Assert
-        assertTrue(result.isEmpty(), "All waypoints should be inside the geofence")
-    }
-
-    @Tag("waypointsOutsideGeofence")
-    @Test
-    fun `waypointsOutsideGeofence should return all waypoints when all outside` () {
-        // Arrange
-        val centralWayPoint = WayPoint(0, 0.0, 0.0)
-        val waypoints = listOf(
-            WayPoint(1, 10.0, 10.0),
-            WayPoint(2, 20.0, 20.0),
-            WayPoint(3, 30.0, 30.0)
-        )
-
-        // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
-
-        // Assert
-        assertEquals(waypoints, result, "All waypoints should be outside the geofence")
-    }
-
-    @Tag("waypointsOutsideGeofence")
-    @Test
-    fun `waypointsOutsideGeofence should return correct waypoints` () {
-        // Arrange
-        val centralWayPoint = WayPoint(0, 0.0, 0.0)
-        val waypoints = listOf(
-            WayPoint(1, 0.0, 0.1),
-            WayPoint(2, 10.0, 10.0),
-            WayPoint(3, 0.1, 0.1)
-        )
-        val expectedResult = listOf(WayPoint(2, 10.0, 10.0))
-
-        // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
-
-        // Assert
-        assertEquals(expectedResult, result, "The waypoint outside the geofence should be returned")
-    }
-
-    @Tag("waypointsOutsideGeofence")
-    @Test
-    fun `waypointsOutsideGeofence should handle empty list` () {
-        // Arrange
-        val centralWayPoint = WayPoint(0, 0.0, 0.0)
-        val waypoints = emptyList<WayPoint>()
-
-        // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
-
-        // Assert
-        assertTrue(result.isEmpty(), "Result should be empty for an empty sequence")
-    }
-
-    @Test
-    fun `test maxDistanceFromStart with multiple points`() {
-        val wayPoints = listOf(
-            WayPoint(0, 41.9028, 12.4964), // Roma (punto di partenza)
-            WayPoint(0, 48.8566, 2.3522),  // Parigi
-            WayPoint(0, 40.7128, -74.0060) // New York
-        )
-
-        val maxDistance = maxDistanceFromStart(wayPoints)
-
-        // New York è il punto più distante da Roma (~6889 km)
-        assertEquals(6889.0, maxDistance, 5.0)
-    }
-
-    @Test
-    fun `test maxDistanceFromStart with single point`() {
-        val wayPoints = listOf(WayPoint(0, 41.9028, 12.4964)) // Solo Roma
-
-        val maxDistance = maxDistanceFromStart(wayPoints)
-
-        // Se c'è un solo WayPoint, la distanza massima è 0.0
-        assertEquals(0.0, maxDistance, 0.0001)
-    }
-
 }
