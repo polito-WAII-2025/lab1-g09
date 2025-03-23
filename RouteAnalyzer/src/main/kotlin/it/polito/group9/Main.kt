@@ -14,11 +14,8 @@ fun main(args: Array<String>) {
 
     val path = args[0]
     val inputFile = File(path)
-   val streamCustomParams = Thread.currentThread().contextClassLoader
-        .getResourceAsStream("custom-parameters.yml")
-        ?: throw IllegalArgumentException("custom-parameters.yml not found on classpath")
-    val customParameters = readCustomParameters(streamCustomParams.bufferedReader())
-
+    val customParamsFile = File("app/resources/custom-parameters.yml");
+    val customParameters =  readCustomParameters(customParamsFile.bufferedReader());
     val wayPoints: List<WayPoint> = readWaypointsFromCsv(inputFile.bufferedReader())
 
     val maxDistance = maxDistanceFromStart(wayPoints)
