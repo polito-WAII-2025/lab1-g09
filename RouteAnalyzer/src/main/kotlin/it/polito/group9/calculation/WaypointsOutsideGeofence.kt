@@ -12,9 +12,11 @@ import it.polito.group9.utils.distanceBetweenWayPoints
  * @param radius The radius of the geofence in kilometers.
  * @return A sequence of waypoints that are outside the specified geofence.
  */
-fun waypointsOutsideGeofence(waypoints: List<WayPoint>, centralWayPoint: WayPoint, radius: Double, parameters: CustomParameters): List<WayPoint> {
+fun waypointsOutsideGeofence(waypoints: List<WayPoint>, parameters: CustomParameters): List<WayPoint> {
+    val centralWayPoint = WayPoint(0, parameters.geofenceCenterLatitude, parameters.geofenceCenterLongitude)
+    val earthRadius = parameters.earthRadiusKm
+
     return waypoints.filter {
-        val earthRadius = parameters.earthRadiusKm ?: 6371.0
-        distanceBetweenWayPoints(it, centralWayPoint, earthRadius) > radius
+        distanceBetweenWayPoints(it, centralWayPoint, earthRadius) > parameters.geofenceRadiusKm
     }
 }

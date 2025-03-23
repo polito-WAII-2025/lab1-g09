@@ -73,7 +73,7 @@ class UtilsTest {
         val point2 = WayPoint(0, 0.0, 1.0)
 
         // Act
-        val result = distanceBetweenWayPoints(point1, point2)
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
 
         // Assert
         assertEquals(111.195, result, 0.001, "Distance should be approximately 111.195 km")
@@ -86,7 +86,7 @@ class UtilsTest {
         val point1 = WayPoint(0, 0.0, 0.0)
 
         // Act
-        val result = distanceBetweenWayPoints(point1, point1)
+        val result = distanceBetweenWayPoints(point1, point1, 6371.0)
 
         // Assert
         assertEquals(0.0, result, "Distance should be 0 km for the same point")
@@ -100,7 +100,7 @@ class UtilsTest {
         val point2 = WayPoint(0, 45.0, 45.0)
 
         // Act
-        val result = distanceBetweenWayPoints(point1, point2)
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
 
         // Assert
         assertEquals(13343.0, result, 1.0, "Distance should be approximately 13343 km")
@@ -114,7 +114,7 @@ class UtilsTest {
         val point2 = WayPoint(0, 90.0, 0.0)
 
         // Act
-        val result = distanceBetweenWayPoints(point1, point2)
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
 
         // Assert
         assertEquals(20015.0, result, 1.0, "Distance should be approximately 20015 km")

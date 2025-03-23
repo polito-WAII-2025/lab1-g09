@@ -9,6 +9,14 @@ import kotlin.test.assertFailsWith
 private const val DELTA = 0.02
 
 class CalculationsTest {
+    val parameters = CustomParameters(
+        41.9028,
+        12.4964,
+        6371.0,
+        0.1,
+        0.1
+    )
+
     // computeDefaultMostFrequentedAreaRadius
     @Test
     fun testComputeDefaultMostFrequentedAreaRadiusWhenLessThanOne() {
@@ -24,23 +32,15 @@ class CalculationsTest {
     // mostFrequentedArea
     @Test
     fun testMostFrequentedAreaEmptyList() {
-        val params = CustomParameters().apply {
-            earthRadiusKm = 6371.0
-            mostFrequentedAreaRadiusKm = 0.5
-        }
         assertFailsWith<IllegalArgumentException> {
-            mostFrequentedArea(emptyList(), params)
+            mostFrequentedArea(emptyList(), parameters)
         }
     }
 
     @Test
     fun testMostFrequentedAreaSinglePoint() {
         val wp = WayPoint(123, 45.678, 9.012)
-        val params = CustomParameters().apply {
-            earthRadiusKm = 6371.0
-            mostFrequentedAreaRadiusKm = 0.5
-        }
-        val (central, count) = mostFrequentedArea(listOf(wp), params)
+        val (central, count) = mostFrequentedArea(listOf(wp), parameters)
         assertEquals(wp, central)
         assertEquals(1, count)
     }
@@ -50,11 +50,7 @@ class CalculationsTest {
         val wp1 = WayPoint(123, 45.678, 9.012)
         val wp2 = WayPoint(123, 45.6785, 9.0125)
         val wp3 = WayPoint(123, 45.6787, 9.0127)
-        val params = CustomParameters().apply {
-            earthRadiusKm = 6371.0
-            mostFrequentedAreaRadiusKm = null
-        }
-        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), params)
+        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
         assertEquals(3, count)
         assertEquals(wp1, central)
     }
@@ -64,11 +60,7 @@ class CalculationsTest {
         val wp1 = WayPoint(123, 45.678, 9.012)
         val wp2 = WayPoint(123, 45.6784, 9.0124)
         val wp3 = WayPoint(123, 45.680, 9.016)
-        val params = CustomParameters().apply {
-            earthRadiusKm = 6371.0
-            mostFrequentedAreaRadiusKm = 0.2
-        }
-        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), params)
+        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
         assertEquals(2, count)
         assertEquals(wp1, central)
     }

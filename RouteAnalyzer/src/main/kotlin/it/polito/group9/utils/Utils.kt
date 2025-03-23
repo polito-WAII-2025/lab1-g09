@@ -37,8 +37,7 @@ fun normalizeTimestamp(timestamp: String): String {
  * @return The distance between the two waypoints in kilometers.
  */
 fun distanceBetweenWayPoints(
-    point1: WayPoint, point2: WayPoint,
-    earthRadius: Double = 6371.0 // Default Earth radius in kilometers
+    point1: WayPoint, point2: WayPoint, earthRadius: Double
 ): Double {
     val lat1Rad = Math.toRadians(point1.latitude)
     val lon1Rad = Math.toRadians(point1.longitude)

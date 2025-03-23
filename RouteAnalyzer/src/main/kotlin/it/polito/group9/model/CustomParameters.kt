@@ -4,13 +4,13 @@ import org.yaml.snakeyaml.Yaml
 import java.io.BufferedReader
 
 
-class CustomParameters {
-    var earthRadiusKm: Double? = null
-    var geofenceCenterLatitude: Double? = null
-    var geofenceCenterLongitude: Double? = null
-    var geofenceRadiusKm: Double? = null
+data class CustomParameters(
+    val geofenceCenterLatitude: Double,
+    var geofenceCenterLongitude: Double,
+    var earthRadiusKm: Double,
+    var geofenceRadiusKm: Double,
     var mostFrequentedAreaRadiusKm: Double? = null
-}
+)
 
 fun readCustomParameters(reader: BufferedReader): CustomParameters {
     val params = Yaml().loadAs(reader, CustomParameters::class.java)
