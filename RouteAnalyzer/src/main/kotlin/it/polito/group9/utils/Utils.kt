@@ -1,7 +1,7 @@
 package it.polito.group9.utils
 
 import it.polito.group9.model.WayPoint
-import it.polito.group9.model.result.OutputResult
+import it.polito.group9.model.result.Result
 import kotlinx.serialization.json.Json
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -23,7 +23,7 @@ fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
     }
 }
 
-fun writeResultToFile(bufferedWriter: BufferedWriter, result: OutputResult) {
+fun writeResultToFile(bufferedWriter: BufferedWriter, result: Result) {
     bufferedWriter.write(Json.encodeToString(result))
 }
 
