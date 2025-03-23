@@ -28,4 +28,5 @@ COPY --from=build /app/build/resources/main /app/resources/
 ENTRYPOINT ["java", "-jar", "/app/RouteAnalyzer-1.0-SNAPSHOT-all.jar"]
 #example arguments for the application
 CMD ["/app/resources/waypoints.csv"]
-# CMD ["/app/resources/output.dojson"] Output file
+# Output file
+CMD ["/app/resources/output.json"]
