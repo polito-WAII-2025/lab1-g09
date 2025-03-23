@@ -2,6 +2,7 @@ package it.polito.group9.calculation
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
+import it.polito.group9.model.result.MostFrequentedAreaResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -40,9 +41,9 @@ class CalculationsTest {
     @Test
     fun testMostFrequentedAreaSinglePoint() {
         val wp = WayPoint(123, 45.678, 9.012)
-        val (central, count) = mostFrequentedArea(listOf(wp), parameters)
-        assertEquals(wp, central)
-        assertEquals(1, count)
+        val expectedResult = MostFrequentedAreaResult(wp, 0.1, 1)
+        val result = mostFrequentedArea(listOf(wp), parameters)
+        assertEquals(expectedResult, result)
     }
 
     @Test
@@ -50,9 +51,9 @@ class CalculationsTest {
         val wp1 = WayPoint(123, 45.678, 9.012)
         val wp2 = WayPoint(123, 45.6785, 9.0125)
         val wp3 = WayPoint(123, 45.6787, 9.0127)
-        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
-        assertEquals(3, count)
-        assertEquals(wp1, central)
+        val expectedResult = MostFrequentedAreaResult(wp1, 0.1, 3)
+        val result = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
+        assertEquals(expectedResult, result)
     }
 
     @Test
@@ -60,8 +61,8 @@ class CalculationsTest {
         val wp1 = WayPoint(123, 45.678, 9.012)
         val wp2 = WayPoint(123, 45.6784, 9.0124)
         val wp3 = WayPoint(123, 45.680, 9.016)
-        val (central, count) = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
-        assertEquals(2, count)
-        assertEquals(wp1, central)
+        val expectedResult = MostFrequentedAreaResult(wp1, 0.1, 2)
+        val result = mostFrequentedArea(listOf(wp1, wp2, wp3), parameters)
+        assertEquals(expectedResult, result)
     }
 }

@@ -2,6 +2,7 @@ package it.polito.group9.calculation
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
+import it.polito.group9.model.result.MostFrequentedAreaResult
 import it.polito.group9.utils.distanceBetweenWayPoints
 
 
@@ -21,7 +22,7 @@ fun computeDefaultMostFrequentedAreaRadius(farthestDistance: Double): Double {
 fun mostFrequentedArea(
     waypoints: List<WayPoint>,
     parameters: CustomParameters
-): Pair<WayPoint, Int> {
+): MostFrequentedAreaResult {
     val earthRadius = parameters.earthRadiusKm
 
     val (_, farthestDistance) = maxDistanceFromStart(waypoints, earthRadius)
@@ -42,5 +43,5 @@ fun mostFrequentedArea(
     }
     val mostFrequentedCluster = clusters.maxByOrNull { it.size } ?: emptyList()
     val centralWaypoint = mostFrequentedCluster.firstOrNull() ?: WayPoint(0, 0.0, 0.0)
-    return centralWaypoint to mostFrequentedCluster.size
+    return MostFrequentedAreaResult(centralWaypoint, areaRadiusKm, mostFrequentedCluster.size)
 }

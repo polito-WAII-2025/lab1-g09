@@ -7,4 +7,4 @@ services:
       - ./src/main/resources:/app/resources
     command:
       - "/app/resources/waypoints.csv"
-      # - "/app/resources/output.cjson"
+      - "/app/resources/output.json"

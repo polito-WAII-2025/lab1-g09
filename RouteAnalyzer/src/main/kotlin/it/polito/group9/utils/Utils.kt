@@ -1,9 +1,12 @@
 package it.polito.group9.utils
 
 import it.polito.group9.model.WayPoint
+import it.polito.group9.model.result.OutputResult
+import kotlinx.serialization.json.Json
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.BufferedReader
+import java.io.BufferedWriter
 import kotlin.math.*
 
 fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
@@ -18,6 +21,10 @@ fun readWaypointsFromCsv(bufferedReader: BufferedReader): List<WayPoint> {
             it[2].toDouble()
         )
     }
+}
+
+fun writeResultToFile(bufferedWriter: BufferedWriter, result: OutputResult) {
+    bufferedWriter.write(Json.encodeToString(result))
 }
 
 fun normalizeTimestamp(timestamp: String): String {
