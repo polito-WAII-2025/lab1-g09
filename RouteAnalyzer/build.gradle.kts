@@ -14,10 +14,16 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+application {
+    // Make sure this fully qualifies the main class.
+    mainClass.set("it.polito.group9.MainKt")
+}
 
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.apache.commons:commons-csv:1.8")
+    implementation("org.yaml:snakeyaml:2.0") // YAML parsing
+
 }
 
 tasks.withType<KotlinCompile> {
