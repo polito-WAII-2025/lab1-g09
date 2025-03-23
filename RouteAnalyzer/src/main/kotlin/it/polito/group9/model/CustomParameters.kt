@@ -13,6 +13,11 @@ class CustomParameters {
 }
 
 fun readCustomParameters(reader: BufferedReader): CustomParameters {
-    val yaml = Yaml()
-    return yaml.loadAs(reader, CustomParameters::class.java)
+    val params = Yaml().loadAs(reader, CustomParameters::class.java)
+    require(params.earthRadiusKm != null) { "earthRadiusKm must be provided" }
+    require(params.geofenceCenterLatitude != null && params.geofenceCenterLongitude != null) {
+        "geofence center must be provided"
+    }
+    require(params.geofenceRadiusKm != null) { "geofenceRadiusKm must be provided" }
+    return params
 }

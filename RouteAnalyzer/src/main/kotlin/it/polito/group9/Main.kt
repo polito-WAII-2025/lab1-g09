@@ -2,8 +2,10 @@ package it.polito.group9
 
 import it.polito.group9.calculation.maxDistanceFromStart
 import it.polito.group9.model.WayPoint
+import it.polito.group9.model.readCustomParameters
 import it.polito.group9.utils.readWaypointsFromCsv
 import java.io.File
+import java.io.InputStream
 
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
@@ -12,6 +14,8 @@ fun main(args: Array<String>) {
 
     val path = args[0]
     val inputFile = File(path)
+    val customParamsFile = File("app/resources/custom-parameters.yml");
+    val customParameters =  readCustomParameters(customParamsFile.bufferedReader());
     val wayPoints: List<WayPoint> = readWaypointsFromCsv(inputFile.bufferedReader())
 
     val maxDistance = maxDistanceFromStart(wayPoints)
