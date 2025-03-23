@@ -22,7 +22,7 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "21" // using 23 will cause some compatibility issues
+        jvmTarget = "23"
     }
 }
 
