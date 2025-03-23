@@ -1,13 +1,10 @@
 package it.polito.group9.utils
 
-import it.polito.group9.calculation.maxDistanceFromStart
-import it.polito.group9.calculation.waypointsOutsideGeofence
 import it.polito.group9.model.WayPoint
 import org.junit.jupiter.api.Tag
 import java.io.StringReader
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class UtilsTest {
     @Tag("normalizeTimestamp")

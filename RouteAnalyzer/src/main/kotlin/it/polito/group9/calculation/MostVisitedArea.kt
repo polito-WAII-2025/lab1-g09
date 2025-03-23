@@ -3,7 +3,6 @@ package it.polito.group9.calculation
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
 import it.polito.group9.utils.distanceBetweenWayPoints
-import kotlin.math.*
 
 
 // Computes the farthest distance from the starting waypoint.
