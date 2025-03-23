@@ -1,9 +1,6 @@
 package it.polito.group9
 
-import it.polito.group9.calculation.maxDistanceFromStart
-import it.polito.group9.calculation.mostFrequentedArea
-import it.polito.group9.calculation.totalTravelDistance
-import it.polito.group9.calculation.waypointsOutsideGeofence
+import it.polito.group9.calculation.*
 import it.polito.group9.model.readCustomParameters
 import it.polito.group9.model.result.OutputAdvancedResult
 import it.polito.group9.model.result.OutputResult
@@ -38,7 +35,8 @@ fun main(args: Array<String>) {
 
     // Calculate advanced results
     val advancedResult = OutputAdvancedResult(
-        totalTravelDistance(wayPoints, customParameters)
+        totalTravelDistance(wayPoints, customParameters),
+        averageSpeed(wayPoints, customParameters),
     )
 
     // Write result to file
