@@ -1,0 +1,29 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  verify-and-build-docker-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Docker Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: RouteAnalyzer/Dockerfile
+          failure-threshold: warning
+
+      - name: Build the Docker image
+        timeout-minutes: 10
+        run: |
+          set -x
+          cd RouteAnalyzer
+          docker version
+          docker build -t route-analyzer .

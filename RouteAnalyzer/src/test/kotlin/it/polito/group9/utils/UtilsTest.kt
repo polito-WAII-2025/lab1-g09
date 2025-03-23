@@ -1,5 +1,6 @@
-package it.polito.group9.lib
+package it.polito.group9.utils
 
+import it.polito.group9.calculation.maxDistanceFromStart
 import it.polito.group9.model.WayPoint
 import org.junit.jupiter.api.Tag
 import java.io.StringReader
@@ -7,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class WaypointTest {
+class UtilsTest {
     @Tag("normalizeTimestamp")
     @Test
     fun `normalizeTimestamp with decimals` () {

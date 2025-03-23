@@ -1,8 +1,8 @@
-package it.polito.group9.lib
+package it.polito.group9.utils
 
+import it.polito.group9.model.WayPoint
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import it.polito.group9.model.WayPoint
 import java.io.BufferedReader
 import kotlin.math.*
 
@@ -66,10 +66,4 @@ fun waypointsOutsideGeofence(waypoints: List<WayPoint>, centralWayPoint: WayPoin
     return waypoints.filter {
         distanceBetweenWayPoints(it, centralWayPoint) > radius
     }
-}
-
-fun maxDistanceFromStart(wayPoints: List<WayPoint>): Double {
-    val startingPoint = wayPoints.first()
-
-    return wayPoints.maxOf { distanceBetweenWayPoints(startingPoint, it) }
 }
