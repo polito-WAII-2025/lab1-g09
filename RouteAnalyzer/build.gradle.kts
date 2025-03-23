@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.1.10"
     id("com.gradleup.shadow") version "8.3.6" // to check dependencies
+    kotlin("plugin.serialization") version "2.1.20"
     application // to create a runnable jar
 }
 
@@ -23,6 +24,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation("org.apache.commons:commons-csv:1.8")
     implementation("org.yaml:snakeyaml:2.0") // YAML parsing
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
 }
 
