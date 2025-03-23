@@ -1,17 +1,15 @@
 package it.polito.group9.utils
 
 import it.polito.group9.model.WayPoint
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Tag
 import java.io.StringReader
-import kotlin.math.round
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class UtilsTest {
     @Tag("normalizeTimestamp")
     @Test
-    fun normalizeTimestampShouldReturnTimestampWhenHasDecimal() {
+    fun `normalizeTimestamp with decimals` () {
         // Arrange
         val timestamp = "123.456"
 
@@ -24,7 +22,7 @@ class UtilsTest {
 
     @Tag("normalizeTimestamp")
     @Test
-    fun normalizeTimestampShouldReturnTimestampWhenNoDecimal() {
+    fun `normalizeTimestamp without decimals` () {
         // Arrange
         val timestamp = "123"
 
@@ -37,7 +35,7 @@ class UtilsTest {
 
     @Tag("readWaypointsFromCsv")
     @Test
-    fun readWaypointsFromCsvShouldReturnListOfWaypoints() {
+    fun `readWaypointsFromCsv should return list of WayPoints` () {
         // Arrange
         val bufferedReader = StringReader("123.456;45.678;9.012\n123.456;45.678;9.012\n123.456;45.678;9.012").buffered()
         val expectedResult = listOf(
@@ -55,7 +53,7 @@ class UtilsTest {
 
     @Tag("readWaypointsFromCsv")
     @Test
-    fun readWaypointsFromCsvShouldReturnEmptyList() {
+    fun `readWaypointsFromCsv should return empty list`() {
         // Arrange
         val bufferedReader = StringReader("").buffered()
         val expectedResult = emptyList<WayPoint>()
@@ -67,38 +65,58 @@ class UtilsTest {
         assertEquals(expectedResult, result, "Result does not match expected result")
     }
 
-    @Tag("calculateEarthDistance")
+    @Tag("distanceBetweenWayPoints")
     @Test
-    fun `test calculateEarthDistance between known points`() {
-        val p1 = WayPoint(0, 41.9028, 12.4964) // Roma
-        val p2 = WayPoint(0, 48.8566, 2.3522)  // Parigi
+    fun `distanceBetweenWayPoints should return correct distance` () {
+        // Arrange
+        val point1 = WayPoint(0, 0.0, 0.0)
+        val point2 = WayPoint(0, 0.0, 1.0)
 
-        val distance = calculateEarthDistanceHaversine(p1, p2)
+        // Act
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
 
-        // La distanza attesa tra Roma e Parigi è circa 1100 km
-        Assertions.assertEquals(1100.0, round(distance), 5.0)
+        // Assert
+        assertEquals(111.195, result, 0.001, "Distance should be approximately 111.195 km")
     }
 
-    @Tag("calculateEarthDistance")
+    @Tag("distanceBetweenWayPoints")
     @Test
-    fun `test calculateEarthDistance with same point`() {
-        val p = WayPoint(0, 45.0, 9.0)
+    fun `distanceBetweenWayPoints should return 0 for the same point` () {
+        // Arrange
+        val point1 = WayPoint(0, 0.0, 0.0)
 
-        val distance = calculateEarthDistanceHaversine(p, p)
+        // Act
+        val result = distanceBetweenWayPoints(point1, point1, 6371.0)
 
-        // Se i due punti sono uguali, la distanza deve essere 0.0
-        Assertions.assertEquals(0.0, distance, 0.0001)
+        // Assert
+        assertEquals(0.0, result, "Distance should be 0 km for the same point")
     }
 
-    @Tag("calculateEarthDistance")
+    @Tag("distanceBetweenWayPoints")
     @Test
-    fun `test calculateEarthDistance along meridian`() {
-        val p1 = WayPoint(0, 0.0, 0.0)    // Equatore, longitudine 0
-        val p2 = WayPoint(0, 10.0, 0.0)   // 10° Nord, stessa longitudine
+    fun `distanceBetweenWayPoints should handle negative coordinates` () {
+        // Arrange
+        val point1 = WayPoint(0, -45.0, -45.0)
+        val point2 = WayPoint(0, 45.0, 45.0)
 
-        val distance = calculateEarthDistanceHaversine(p1, p2)
+        // Act
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
 
-        // 10 gradi di latitudine ~ 1110 km
-        Assertions.assertEquals(1110.0, round(distance), 5.0)
+        // Assert
+        assertEquals(13343.0, result, 1.0, "Distance should be approximately 13343 km")
+    }
+
+    @Tag("distanceBetweenWayPoints")
+    @Test
+    fun `distanceBetweenWayPoints should handle large distances` () {
+        // Arrange
+        val point1 = WayPoint(0, -90.0, 0.0)
+        val point2 = WayPoint(0, 90.0, 0.0)
+
+        // Act
+        val result = distanceBetweenWayPoints(point1, point2, 6371.0)
+
+        // Assert
+        assertEquals(20015.0, result, 1.0, "Distance should be approximately 20015 km")
     }
 }

@@ -2,16 +2,14 @@ package it.polito.group9.calculation
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
-import it.polito.group9.utils.calculateEarthDistanceHaversine
-import kotlin.math.*
-
+import it.polito.group9.utils.distanceBetweenWayPoints
 
 
 // Computes the farthest distance from the starting waypoint.
-fun maxDistanceFromStart(waypoints: List<WayPoint>, earthRadius: Double = 6371.0): Pair<WayPoint, Double> {
+fun maxDistanceFromStart(waypoints: List<WayPoint>, earthRadius: Double): Pair<WayPoint, Double> {
     val start = waypoints.firstOrNull() ?: throw IllegalArgumentException("No waypoints provided")
     val maxDistance = waypoints.drop(1)
-        .map { calculateEarthDistanceHaversine(start, it) }
+        .map { distanceBetweenWayPoints(start, it, earthRadius) }
         .maxOrNull() ?: 0.0
     return start to maxDistance
 }
@@ -24,8 +22,7 @@ fun mostFrequentedArea(
     waypoints: List<WayPoint>,
     parameters: CustomParameters
 ): Pair<WayPoint, Int> {
-    // Use provided earthRadiusKm or fallback to 6371.0 km.
-    val earthRadius = parameters.earthRadiusKm ?: 6371.0
+    val earthRadius = parameters.earthRadiusKm
 
     val (_, farthestDistance) = maxDistanceFromStart(waypoints, earthRadius)
 
@@ -33,7 +30,7 @@ fun mostFrequentedArea(
 
     val clusters = waypoints.fold(emptyList<List<WayPoint>>()) { clusters, wp ->
         val clusterIndex = clusters.indexOfFirst { cluster ->
-            calculateEarthDistanceHaversine(cluster.first(), wp) <= areaRadiusKm
+            distanceBetweenWayPoints(cluster.first(), wp, parameters.earthRadiusKm) <= areaRadiusKm
         }
         if (clusterIndex >= 0) {
             clusters.mapIndexed { index, cluster ->
