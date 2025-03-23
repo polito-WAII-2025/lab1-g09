@@ -37,6 +37,7 @@ fun main(args: Array<String>) {
     val advancedResult = OutputAdvancedResult(
         totalTravelDistance(wayPoints, customParameters),
         averageSpeed(wayPoints, customParameters),
+        averageWaypointsDistance(wayPoints, customParameters),
     )
 
     // Write result to file

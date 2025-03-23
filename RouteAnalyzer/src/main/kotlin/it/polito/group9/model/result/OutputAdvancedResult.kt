@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class OutputAdvancedResult (
     val totalTravelDistanceResult: TotalTravelDistanceResult,
     val averageSpeed: AverageSpeedResult,
+    val averageWaypointsDistance: AverageWaypointsDistanceResult
 ): Result
