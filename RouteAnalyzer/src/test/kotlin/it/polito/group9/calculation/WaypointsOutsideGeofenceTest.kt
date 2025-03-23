@@ -1,5 +1,6 @@
 package it.polito.group9.calculation
 
+import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint
 import org.junit.jupiter.api.Tag
 import kotlin.test.Test
@@ -7,6 +8,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class WaypointsOutsideGeofenceTest {
+    private val parameters = CustomParameters()
+
     @Tag("waypointsOutsideGeofence")
     @Test
     fun `waypointsOutsideGeofence should return empty list when all inside` () {
@@ -19,7 +22,7 @@ class WaypointsOutsideGeofenceTest {
         )
 
         // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
+        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0, parameters)
 
         // Assert
         assertTrue(result.isEmpty(), "All waypoints should be inside the geofence")
@@ -37,7 +40,7 @@ class WaypointsOutsideGeofenceTest {
         )
 
         // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
+        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0, parameters)
 
         // Assert
         assertEquals(waypoints, result, "All waypoints should be outside the geofence")
@@ -56,7 +59,7 @@ class WaypointsOutsideGeofenceTest {
         val expectedResult = listOf(WayPoint(2, 10.0, 10.0))
 
         // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
+        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0, parameters)
 
         // Assert
         assertEquals(expectedResult, result, "The waypoint outside the geofence should be returned")
@@ -70,7 +73,7 @@ class WaypointsOutsideGeofenceTest {
         val waypoints = emptyList<WayPoint>()
 
         // Act
-        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0)
+        val result = waypointsOutsideGeofence(waypoints, centralWayPoint, 100.0, parameters)
 
         // Assert
         assertTrue(result.isEmpty(), "Result should be empty for an empty sequence")
