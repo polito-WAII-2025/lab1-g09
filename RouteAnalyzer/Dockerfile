@@ -14,7 +14,7 @@ COPY src /app/src
 RUN gradle build -x test
 
 # Usa a base image with Amazon Corretto 21 and Alpine Linux (not openjdk because seems to be deprecated)
-FROM amazoncorretto:21-alpine-jdk
+FROM amazoncorretto:23-alpine-jdk
 
 # Set the working directory inside the container
 WORKDIR /app
