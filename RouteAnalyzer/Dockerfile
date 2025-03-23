@@ -1,5 +1,5 @@
 # Use Gradle image based on JDK 21 (last version that I found on Docker Hub)
-FROM gradle:8.13.0-jdk21 AS build
+FROM gradle:8.13.0-jdk23 AS build
 LABEL author="lillobarilotto"
 # Imposta la directory di lavoro
 WORKDIR /app
