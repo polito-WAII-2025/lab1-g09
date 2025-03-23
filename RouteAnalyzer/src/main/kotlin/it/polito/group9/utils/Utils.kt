@@ -28,21 +28,27 @@ fun normalizeTimestamp(timestamp: String): String {
     }
 }
 
-fun calculateEarthDistanceHaversine(p1: WayPoint, p2: WayPoint): Double {
-    val earthRadius = 6371.0 // Earth's radius in kilometers
+/**
+ * Calculates the distance between two waypoints using the Haversine formula.
+ *
+ * @param point1 The first waypoint.
+ * @param point2 The second waypoint.
+ * @param earthRadius The radius of the Earth in kilometers. Default is 6371.0 km.
+ * @return The distance between the two waypoints in kilometers.
+ */
+fun distanceBetweenWayPoints(
+    point1: WayPoint, point2: WayPoint, earthRadius: Double
+): Double {
+    val lat1Rad = Math.toRadians(point1.latitude)
+    val lon1Rad = Math.toRadians(point1.longitude)
+    val lat2Rad = Math.toRadians(point2.latitude)
+    val lon2Rad = Math.toRadians(point2.longitude)
 
-    //non tipizzato perchè tutti double
+    val dLat = lat2Rad - lat1Rad
+    val dLon = lon2Rad - lon1Rad
 
-    val lat1 = Math.toRadians(p1.latitude);
-    val lon1 = Math.toRadians(p1.longitude);
-    val lat2 = Math.toRadians(p2.latitude);
-    val lon2 = Math.toRadians(p2.longitude);
+    val a = sin(dLat / 2).pow(2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2).pow(2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-    val dLat = lat2 - lat1;
-    val dLon = lon2 - lon1;
-
-    val a = sin(dLat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dLon / 2).pow(2);
-    val c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    return earthRadius * c;
+    return earthRadius * c // Distance in the same unit as earthRadius (default: km)
 }
