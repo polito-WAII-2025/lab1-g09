@@ -1,8 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.1.10"
+    id("com.gradleup.shadow") version "8.3.6" // to check dependencies
+    application // to create a runnable jar
 }
 
 group = "it.polito.group9"
@@ -17,8 +20,24 @@ dependencies {
     implementation("org.apache.commons:commons-csv:1.8")
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "23"
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "it.polito.group9.MainKt" // we need to specify it in order to create a runnable jar
+    }
+}
+
+application {
+    mainClass.set("it.polito.group9.MainKt")  // we need to specify it in order to create a runnable jar, maybe redundant with the previous one
 }
 
 java {

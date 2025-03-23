@@ -1,0 +1,15 @@
+services:
+  frontend:
+    extends:
+      file: ./RouteGenerator/docker-compose.yml
+      service: frontend
+
+  back-end:
+    extends:
+      file: ./RouteAnalyzer/docker-compose.yml
+      service: back-end
+    volumes:
+      - ./RouteAnalyzer/src/main/resources:/app/resources
+      - ./resources:/app/root-resources
+    command:
+      - "/app/root-resources/waypoints.csv"
