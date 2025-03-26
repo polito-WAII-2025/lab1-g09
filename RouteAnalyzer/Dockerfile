@@ -21,10 +21,10 @@ WORKDIR /app
 
 # Copy the jar file from the build stage
 COPY --from=build /app/build/libs/RouteAnalyzer-1.0-SNAPSHOT-all.jar /app/RouteAnalyzer-1.0-SNAPSHOT-all.jar
-# Copy the resource files (like the waypoints.csv of example) from the build stage
-COPY --from=build /app/build/resources/main /app/resources/
+# Copy the resource files (like the waypoints.csv of example and the custom-parameters) from the src
+COPY src/main/resources/ /app/resources/
 
 # Execute the application with the waypoints.csv file as argument (will be the default command for docker run and docker-compose up/run)
 ENTRYPOINT ["java", "-jar", "/app/RouteAnalyzer-1.0-SNAPSHOT-all.jar"]
 #example arguments for the application
-CMD ["/app/resources/waypoints.csv", "/app/resources/output.json"]
+CMD ["/app/resources/waypoints.csv", "/app/resources/output.json", "/app/resources/output-advanced.json" ,"/app/resources/custom-parameters.json"]

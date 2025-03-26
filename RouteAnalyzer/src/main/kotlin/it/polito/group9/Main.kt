@@ -12,12 +12,13 @@ import it.polito.group9.utils.writeResultToFile
 import java.io.File
 
 fun main(args: Array<String>) {
-    if (args.size < 2) {
-        throw IllegalArgumentException("Usage: RouteAnalyzer <input-file> <output-file>")
+    if (args.size < 4) {
+        throw IllegalArgumentException("Usage: RouteAnalyzer <input-file> <output-file> <output-advanced-file> <custom-parameters-file>")
     }
 
     // Parse custom parameters
-    val customParamsFile = File("/app/resources/custom-parameters.yml")
+    val customParamsPath = args[3]
+    val customParamsFile = File(customParamsPath)
     val customParameters = customParamsFile.bufferedReader().use { reader ->
         readCustomParameters(reader)
     }
@@ -51,7 +52,7 @@ fun main(args: Array<String>) {
     }
 
     // Write advanced output to file
-    val outputAdvancedPath = "/app/resources/output_advanced.json"
+    val outputAdvancedPath = args[2]
     val outputAdvancedFile = File(outputAdvancedPath)
     outputAdvancedFile.bufferedWriter().use { out ->
         writeResultToFile(out, advancedResult)
