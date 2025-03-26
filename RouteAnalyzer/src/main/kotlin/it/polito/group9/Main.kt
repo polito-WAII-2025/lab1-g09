@@ -1,9 +1,11 @@
 package it.polito.group9
 
-import it.polito.group9.calculation.maxDistanceFromStart
-import it.polito.group9.calculation.mostFrequentedArea
-import it.polito.group9.calculation.waypointsOutsideGeofence
+import it.polito.group9.calculation.*
+import it.polito.group9.calculation.advanced.averageSpeed
+import it.polito.group9.calculation.advanced.averageWaypointsDistance
+import it.polito.group9.calculation.advanced.totalTravelDistance
 import it.polito.group9.model.readCustomParameters
+import it.polito.group9.model.result.OutputAdvancedResult
 import it.polito.group9.model.result.OutputResult
 import it.polito.group9.utils.readWaypointsFromCsv
 import it.polito.group9.utils.writeResultToFile
@@ -34,10 +36,24 @@ fun main(args: Array<String>) {
         waypointsOutsideGeofence(wayPoints, customParameters)
     )
 
+    // Calculate advanced results
+    val advancedResult = OutputAdvancedResult(
+        totalTravelDistance(wayPoints, customParameters),
+        averageSpeed(wayPoints, customParameters),
+        averageWaypointsDistance(wayPoints, customParameters),
+    )
+
     // Write result to file
     val outputPath = args[1]
     val outputFile = File(outputPath)
     outputFile.bufferedWriter().use { out ->
         writeResultToFile(out, result)
+    }
+
+    // Write advanced output to file
+    val outputAdvancedPath = "/app/resources/output_advanced.json"
+    val outputAdvancedFile = File(outputAdvancedPath)
+    outputAdvancedFile.bufferedWriter().use { out ->
+        writeResultToFile(out, advancedResult)
     }
 }
