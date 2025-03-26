@@ -1,4 +1,4 @@
-package it.polito.group9.calculation
+package it.polito.group9.calculation.advanced
 
 import it.polito.group9.model.CustomParameters
 import it.polito.group9.model.WayPoint

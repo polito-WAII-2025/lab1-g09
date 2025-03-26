@@ -1,6 +1,9 @@
 package it.polito.group9
 
 import it.polito.group9.calculation.*
+import it.polito.group9.calculation.advanced.averageSpeed
+import it.polito.group9.calculation.advanced.averageWaypointsDistance
+import it.polito.group9.calculation.advanced.totalTravelDistance
 import it.polito.group9.model.readCustomParameters
 import it.polito.group9.model.result.OutputAdvancedResult
 import it.polito.group9.model.result.OutputResult
