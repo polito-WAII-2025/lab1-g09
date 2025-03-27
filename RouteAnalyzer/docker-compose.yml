@@ -8,3 +8,5 @@ services:
     command:
       - "/app/resources/waypoints.csv"
       - "/app/resources/output.json"
+      - "/app/resources/output_advanced.json"
+      - "/app/resources/custom-parameters.yml"
