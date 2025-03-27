@@ -27,4 +27,4 @@ COPY src/main/resources/ /app/resources/
 # Execute the application with the waypoints.csv file as argument (will be the default command for docker run and docker-compose up/run)
 ENTRYPOINT ["java", "-jar", "/app/RouteAnalyzer-1.0-SNAPSHOT-all.jar"]
 #example arguments for the application
-CMD ["/app/resources/waypoints.csv", "/app/resources/output.json", "/app/resources/output-advanced.json" ,"/app/resources/custom-parameters.json"]
+CMD ["/app/resources/waypoints.csv", "/app/resources/output.json", "/app/resources/output_advanced.json" ,"/app/resources/custom-parameters.json"]
